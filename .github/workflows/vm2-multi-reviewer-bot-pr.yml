@@ -1,0 +1,30 @@
+name: VM2 multi required reviewer bot PR
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create bot-authored two-path PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="vm2-multi-reviewer-bot-$GITHUB_RUN_ID"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          mkdir -p src docs
+          printf 'VM2 Team A file %s\n' "$GITHUB_RUN_ID" > src/vm2-team-a.txt
+          printf 'VM2 Team B file %s\n' "$GITHUB_RUN_ID" > docs/vm2-team-b.txt
+          git add src/vm2-team-a.txt docs/vm2-team-b.txt
+          git commit -m "VM2 multi-reviewer AND semantics probe"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title "VM2 MULTI REQUIRED REVIEWERS AND PROBE" --body "Controlled bot-authored PR touching src/** and docs/**."

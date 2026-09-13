@@ -17,7 +17,7 @@ jobs:
       - name: Upload target canary
         env:
           MERGIFY_TOKEN: ${{ secrets.VM2_TRACEPARENT_CI_KEY }}
-          MERGIFY_TRACEPARENT: 00-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ffffffffffffffff-01
+          MERGIFY_TRACEPARENT: 00-12121212121212121212121212121212-3434343434343434-01
         run: |
           cat > /tmp/test_vm2_trace_target.py <<'PY'
           def test_vm2_trace_target_failure_row():

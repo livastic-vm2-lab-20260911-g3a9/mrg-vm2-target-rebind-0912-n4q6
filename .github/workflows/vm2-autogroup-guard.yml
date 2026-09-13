@@ -1,0 +1,28 @@
+name: VM2 Auto-group guard
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+jobs:
+  guard:
+    name: vm2-autogroup-guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Observation window
+        run: sleep 120
+      - name: Reject combined rename+modify state
+        shell: bash
+        run: |
+          if [[ -f vm2-autogroup-renamed.txt ]] && grep -q '^RENAMED_MARKER=1$' vm2-autogroup-renamed.txt && grep -q '^MODIFIED_MARKER=1$' vm2-autogroup-renamed.txt; then
+            echo 'VM2_AUTOGROUP_GUARD=FAIL_COMBINED_RENAMED_FILE'
+            exit 1
+          fi
+          if [[ -f vm2-autogroup-target.txt && -f vm2-autogroup-renamed.txt ]]; then
+            echo 'VM2_AUTOGROUP_GUARD=FAIL_OLD_AND_NEW_PATHS'
+            exit 1
+          fi
+          echo 'VM2_AUTOGROUP_GUARD=PASS'
+

@@ -1,0 +1,6 @@
+queue_rules:
+  - name: vm2-filepattern-delete-probe
+    queue_conditions:
+      - author = livastic-vm2-primary-20260911
+    merge_conditions: []
+    merge_method: merge

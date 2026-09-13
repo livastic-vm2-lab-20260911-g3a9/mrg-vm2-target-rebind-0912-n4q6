@@ -1,0 +1,17 @@
+name: VM2 title freshness hold
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  vm2-title-hold:
+    name: vm2-title-hold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Controlled delay
+        run: |
+          echo "VM2 controlled metadata freshness hold"
+          sleep 25

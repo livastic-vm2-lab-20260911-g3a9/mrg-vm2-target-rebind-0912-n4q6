@@ -1,0 +1,5 @@
+queue_rules:
+  - name: vm2-multi-reviewer-and-probe
+    queue_conditions: []
+    merge_conditions: []
+    merge_method: merge

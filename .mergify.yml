@@ -1,0 +1,17 @@
+scopes:
+  source:
+    manual:
+merge_queue:
+  mode: parallel
+  max_parallel_checks: 2
+queue_rules:
+  - name: vm2-autogroup-rename
+    batch_size: 1
+    merge_method: merge
+    queue_conditions:
+      - title ~= ^VM2_AUTOGROUP_
+      - check-success = @github-actions/vm2-autogroup-guard
+    merge_conditions:
+      - title ~= ^VM2_AUTOGROUP_
+      - check-success = @github-actions/vm2-autogroup-guard
+

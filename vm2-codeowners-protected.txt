@@ -1,1 +1,2 @@
 BASE=1\n
+B_CHANGE=1

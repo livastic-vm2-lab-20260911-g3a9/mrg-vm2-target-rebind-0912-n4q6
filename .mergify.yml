@@ -1,8 +1,0 @@
-queue_rules:
-  - name: vm2-codeowners-team-slug
-    batch_size: 1
-    merge_method: merge
-    queue_conditions:
-      - title = VM2_CODEOWNERS_SLUG_LIFECYCLE
-    merge_conditions:
-      - title = VM2_CODEOWNERS_SLUG_LIFECYCLE

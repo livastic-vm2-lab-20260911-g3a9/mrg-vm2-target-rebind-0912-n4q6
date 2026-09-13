@@ -1,0 +1,1 @@
+VM2 protected baseline for file-pattern deletion semantics 2026-09-14

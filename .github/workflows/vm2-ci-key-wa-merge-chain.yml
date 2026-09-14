@@ -38,7 +38,7 @@ jobs:
       - name: Mergify application key validity control
         shell: bash
         env:
-          MERGIFY_TOKEN: ${{ secrets.VM2_TESTIDENTITY_CI_KEY }}
+          MERGIFY_TOKEN: ${{ secrets.VM2_CHAIN_FRESH_CI_KEY_20260914 }}
         run: |
           set -euo pipefail
           body_file="$(mktemp)"
@@ -54,7 +54,7 @@ jobs:
       - name: Mergify cross-repository scope write current-boundary probe
         shell: bash
         env:
-          MERGIFY_TOKEN: ${{ secrets.VM2_TESTIDENTITY_CI_KEY }}
+          MERGIFY_TOKEN: ${{ secrets.VM2_CHAIN_FRESH_CI_KEY_20260914 }}
         run: |
           set -euo pipefail
           body_file="$(mktemp)"

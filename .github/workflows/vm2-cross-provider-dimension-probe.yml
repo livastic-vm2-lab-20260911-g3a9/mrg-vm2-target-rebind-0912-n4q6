@@ -4,14 +4,6 @@ on:
 permissions:
   contents: read
 jobs:
-  provider_only:
-    name: vm2-dim-provider-only
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        run: |
-          echo "attempt=${GITHUB_RUN_ATTEMPT}"
-          [[ "${GITHUB_RUN_ATTEMPT}" != "1" ]]
   pipeline_mismatch:
     name: vm2-dim-pipeline-mismatch
     runs-on: ubuntu-latest

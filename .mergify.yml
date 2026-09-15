@@ -2,7 +2,6 @@ queue_rules:
   - name: vm2-mergebot-freshness
     batch_size: 1
     max_checks_retries: 0
-    merge_bot_account: livastic-vm2-secondary-20260911
     queue_conditions:
       - base = vm2-mergebot-base-0915
       - title ~= ^VM2_MERGEBOT_FRESHNESS_

@@ -1,0 +1,17 @@
+name: VM2 OOB Callback Reachability Probe 0916
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe controlled VM2 callback
+        env:
+          CALLBACK: ${{ secrets.VM2_OOB_CALLBACK_URL }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS --max-time 10 -o /tmp/body -w '%{http_code}' "$CALLBACK" || true)
+          echo "callback_http=$code"
+          test "$code" = 200

@@ -1,0 +1,18 @@
+name: VM2 Auto Retry Branch Dimension 0916
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    name: vm2-auto-retry-branch-dimension-job
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          echo "attempt=${GITHUB_RUN_ATTEMPT} ref=${GITHUB_REF_NAME}"
+          if [[ "${GITHUB_RUN_ATTEMPT}" == "1" ]]; then
+            echo VM2_BRANCH_DIM_CONTROLLED_FAILURE
+            exit 1
+          fi
+          echo VM2_BRANCH_DIM_RERUN_SUCCESS

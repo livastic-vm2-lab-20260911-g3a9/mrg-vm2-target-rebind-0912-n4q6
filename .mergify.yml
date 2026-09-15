@@ -1,0 +1,13 @@
+queue_rules:
+  - name: vm2-draftbot-lowpriv-chain
+    batch_size: 1
+    max_checks_retries: 1
+    draft_bot_account: livastic-vm2-primary-20260911
+    queue_conditions:
+      - base = vm2-draftbot-external-base-0915
+      - title = VM2_DRAFTBOT_EXTERNAL_CHAIN
+    merge_conditions:
+      - base = vm2-draftbot-external-base-0915
+      - title = VM2_DRAFTBOT_EXTERNAL_CHAIN
+      - check-success = vm2-draftbot-external-hold
+pull_request_rules: []

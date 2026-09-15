@@ -1,0 +1,21 @@
+pull_request_rules:
+  - name: vm2 backport bot baseline
+    conditions:
+      - title = VM2_BACKPORT_BOT_BASELINE
+    actions:
+      backport:
+        branches:
+          - vm2-backport-dest-0915
+        bot_account: livastic-vm2-secondary-20260911
+        report_mode:
+          - check
+  - name: vm2 backport bot treatment
+    conditions:
+      - title = VM2_BACKPORT_BOT_TREATMENT
+    actions:
+      backport:
+        branches:
+          - vm2-backport-dest-0915
+        bot_account: livastic-vm2-secondary-20260911
+        report_mode:
+          - check

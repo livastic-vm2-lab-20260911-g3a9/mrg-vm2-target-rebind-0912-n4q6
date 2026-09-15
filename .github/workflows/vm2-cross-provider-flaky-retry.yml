@@ -1,0 +1,17 @@
+name: VM2 Cross Provider Flaky Retry 0916
+on:
+  workflow_dispatch:
+jobs:
+  discriminator:
+    name: vm2-cross-provider-victim
+    runs-on: ubuntu-latest
+    steps:
+      - name: Attempt discriminator
+        shell: bash
+        run: |
+          echo "VM2_CROSS_PROVIDER_ATTEMPT=${GITHUB_RUN_ATTEMPT}"
+          if [[ "${GITHUB_RUN_ATTEMPT}" == "1" ]]; then
+            echo "VM2_CROSS_PROVIDER_CONTROLLED_FAILURE"
+            exit 1
+          fi
+          echo "VM2_CROSS_PROVIDER_RERUN_SUCCESS"

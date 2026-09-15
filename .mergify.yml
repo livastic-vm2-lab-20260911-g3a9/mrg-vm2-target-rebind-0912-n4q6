@@ -1,9 +1,0 @@
-queue_rules:
-  - name: vm2-codeowners-team-reuse
-    batch_size: 1
-    queue_conditions:
-      - base = vm2-codeowners-base-0915
-      - title = VM2_CODEOWNERS_TEAM_REUSE
-    merge_conditions:
-      - check-success = vm2-codeowners-hold
-pull_request_rules: []

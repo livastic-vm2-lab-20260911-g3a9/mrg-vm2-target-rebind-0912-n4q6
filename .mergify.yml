@@ -1,15 +1,13 @@
 merge_queue:
+  mode: serial
   max_parallel_checks: 1
 queue_rules:
   - name: vm2-updatebot-freshness
     batch_size: 1
-    max_checks_retries: 1
+    max_checks_retries: 0
     update_method: merge
     update_bot_account: livastic-vm2-secondary-20260911
     queue_conditions:
-      - base = vm2-updatebot-base-0915
-      - title ~= ^VM2_UPDATEBOT_FRESHNESS_
-    merge_conditions:
       - base = vm2-updatebot-base-0915
       - title ~= ^VM2_UPDATEBOT_FRESHNESS_
 pull_request_rules: []

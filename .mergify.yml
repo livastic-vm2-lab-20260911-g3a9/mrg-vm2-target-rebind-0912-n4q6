@@ -10,3 +10,9 @@ queue_rules:
     merge_conditions:
       - check-success = vm2-dequeued-hold
 pull_request_rules: []
+  - name: vm2 native stack toctou 20260921
+    batch_size: 1
+    queue_conditions:
+      - title ~= ^VM2_NATIVE_STACK_TOCTOU_0921_
+    merge_conditions:
+      - check-success = vm2-native-stack-hold-0921

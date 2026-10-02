@@ -11,4 +11,14 @@ queue_rules:
       - title = VM2_DEQUEUED_LABEL_REQUEUE
     merge_conditions:
       - check-success = vm2-draftbot-hold
-pull_request_rules: []
+pull_request_rules:
+  - name: VM2 request reviews stale head 1002 targetrebind
+    conditions:
+      - base = main
+      - author = livastic-vm2-secondary-20260911
+      - title = VM2_REQREV_RACE_1002
+      - check-success = vm2-reqrev-race-gate
+    actions:
+      request_reviews:
+        users:
+          - livastic-vm2-primary-20260911
